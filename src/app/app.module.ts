@@ -1,9 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {Injector, NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import {MatButtonModule} from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppComponent} from './app.component';
 import {createCustomElement} from '@angular/elements';
 
 @NgModule({
@@ -11,9 +9,7 @@ import {createCustomElement} from '@angular/elements';
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    MatButtonModule,
-    BrowserAnimationsModule
+    BrowserModule
   ],
   providers: [],
   entryComponents: [AppComponent]
@@ -21,7 +17,7 @@ import {createCustomElement} from '@angular/elements';
 export class AppModule {
   constructor(private injector: Injector) {
     const customComponent = createCustomElement(AppComponent, {injector});
-    customElements.define('app-root', customComponent);
+    customElements.define('custom-button', customComponent);
   }
   ngDoBootstrap() {}
 }

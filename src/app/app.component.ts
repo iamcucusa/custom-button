@@ -1,42 +1,58 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  template: './app.component.html',
-  styleUrls: ['./app.component.css']
+  // selector: 'zoom-button',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Angular element example';
-  private _number = 0;
-  private _message = 'Angular';
-  count: Number = 0;
 
-  set number(newCount: any) {
-    this._number = parseInt(newCount, 10);
-    this.count = this._number;
-    this.cdr.detectChanges();
-    this.countChange.emit(newCount);
-  }
-  @Input()
-  get number() {
-    return this._number;
-  }
-  @Input()
-  set message(newMessage: string) {
-    this._message = newMessage;
-  }
-  get message() {
-    return this._message;
-  }
+  count: number = 0;
 
-  @Output('count-change') countChange = new EventEmitter();
+  @Input() mode: string;
 
-  constructor(/*private el: ElementRef, */private cdr: ChangeDetectorRef) {
+  @Input() raetId: string;
+
+  @Input() size: string;
+
+  @Input() type: string;
+
+  @Input() isDisabled: boolean;
+
+  @Output() actionClick: EventEmitter<number> = new EventEmitter();
+
+  isLoading = false;
+
+  isActive = false;
+
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
   }
 
-  increaseCount(count) {
-    this.number = count + 1;
-    // this.el.nativeElement.setAttribute('number', count + 1);
-    this.cdr.detectChanges();
+  showLoading() {
+    this.isLoading = true;
   }
+
+  hideLoading() {
+    this.isLoading = false;
+  }
+
+  showActive() {
+    this.isActive = true;
+  }
+
+  hideActive() {
+    this.isActive = false;
+  }
+
+  onClick() {
+    this.count++;
+    this.actionClick.emit(this.count);
+    this.changeDetectorRef.detectChanges();
+  }
+
+  done() {
+    this.isLoading = false;
+    this.isActive = false;
+  }
+
 }
